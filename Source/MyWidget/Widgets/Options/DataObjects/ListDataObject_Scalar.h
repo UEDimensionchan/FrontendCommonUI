@@ -30,6 +30,9 @@ public:
 
 private:
 	float StringToFloat(const FString& InString) const;
+
+	virtual bool CanResetBackToDefaultValue() const override;
+	virtual bool TryResetBackToDefaultValue() override;
 	
 private:
 	TRange<float> DisplayValueRange = TRange<float>(0.f, 1.f);

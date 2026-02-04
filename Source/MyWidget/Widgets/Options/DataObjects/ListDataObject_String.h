@@ -40,3 +40,26 @@ protected:
 
 
 };
+
+
+UCLASS()
+class MYWIDGET_API UListDataObject_StringBool : public UListDataObject_String
+{
+	GENERATED_BODY()
+
+public:
+	void OverrideTrueDisplayText(const FText& InNewTrueDisplayText);
+	void OverrideFalseDisplayText(const FText& InNewfalseDisplayText);
+	void SetTrueAsDefaultValue();
+	void SetFalseAsDefaultValue();
+
+protected:
+	virtual void OnDataObjectInitialized() override;
+
+private:
+	void TryInitBoolValues();
+
+private:
+	const FString TrueString = TEXT("true");
+	const FString FalseString = TEXT("false");
+};
