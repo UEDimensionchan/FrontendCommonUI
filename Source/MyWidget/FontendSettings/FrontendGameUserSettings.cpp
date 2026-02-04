@@ -4,6 +4,12 @@
 #include "FrontendGameUserSettings.h"
 
 
+UFrontendGameUserSettings::UFrontendGameUserSettings()
+	:OverallVolume(1.f)
+{
+
+}
+
 UFrontendGameUserSettings* UFrontendGameUserSettings::Get()
 {
 	if (GEngine)
@@ -12,4 +18,11 @@ UFrontendGameUserSettings* UFrontendGameUserSettings::Get()
 	}
 
 	return nullptr;
+}
+
+void UFrontendGameUserSettings::SetOverallVolume(float InVolume)
+{
+	OverallVolume = InVolume;
+
+	//真正设置音量的地方
 }
