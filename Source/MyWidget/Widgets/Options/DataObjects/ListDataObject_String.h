@@ -100,3 +100,20 @@ public:
 		SetDefaultValueFromString(ConvertedEnumString);
 	}
 };
+
+
+
+UCLASS()
+class MYWIDGET_API UListDataObject_StringInteger : public UListDataObject_String
+{
+	GENERATED_BODY()
+
+public:
+	void AddIntegerOption(int32 InIntegerValue, const FText& InDisplayText);
+
+protected:
+	//~ Begin UListDataObject_String Interface
+	virtual void OnDataObjectInitialized() override;
+	virtual void OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData, EOptionsListDataModifyReason ModifyReason) override;
+	//~ End UListDataObject_String Interface
+};

@@ -33,6 +33,7 @@ private:
 
 	virtual bool CanResetBackToDefaultValue() const override;
 	virtual bool TryResetBackToDefaultValue() override;
+	virtual void OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData, EOptionsListDataModifyReason ModifyReason) override;
 	
 private:
 	TRange<float> DisplayValueRange = TRange<float>(0.f, 1.f);

@@ -53,6 +53,15 @@ public:
 	void SetUseHDRAudioMode(bool bIsAllowed);
 	//AudioSettings
 
+		//***** Video Collection Tab ***** //
+	UFUNCTION()
+	float GetCurrentDisplayGamma() const;
+
+	UFUNCTION()
+	void SetCurrentDisplayGamma(float InNewGamma);
+
+	//***** Video Collection Tab ***** //
+
 private:
 	//GameDifficultSettings
 	UPROPERTY(Config)
@@ -75,6 +84,4 @@ private:
 	UPROPERTY(Config)
 	bool bUseHDRAudioMode;
 	//AudioSettings
-
-
 };
