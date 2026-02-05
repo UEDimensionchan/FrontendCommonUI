@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "../../../FrontendTypes/FrontendEnumType.h"
+#include "../../../FrontendTypes/FrontendStructTypes.h"
 #include "ListDataObject_Base.generated.h"
 
 
@@ -23,6 +24,7 @@ class MYWIDGET_API UListDataObject_Base : public UObject
 public:
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnListDataModifiedDelegate, UListDataObject_Base*, EOptionsListDataModifyReason)
 	FOnListDataModifiedDelegate OnListDataModified;
+	FOnListDataModifiedDelegate OnDependencyDataModified;
 
 	LIST_DATA_ACCESSOR(FName,DataID)
 	LIST_DATA_ACCESSOR(FText, DataDisplayName)
@@ -42,11 +44,28 @@ public:
 	virtual bool CanResetBackToDefaultValue() const { return false; }
 	virtual bool TryResetBackToDefaultValue() { return false; }
 
+	//Gets called from OptionsDataRegistry to add in dependency data
+	void AddEditDependencyData(UListDataObject_Base* InDependencyData);
+
+	//Gets called from OptionsDataRegister for adding in edit conditions for the constructed list data objects
+	void AddEditCondition(const FOptionsDataEditConditionDescriptor& InEditCondition);
+
+	bool IsDataCurrentlyEditable();
+
 protected:
 	virtual void OnDataObjectInitialized();
 
 	virtual void NotifyListDataModified(UListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModified);
 	
+
+	//The child class should override this to allow the value be set to the forced string value
+	virtual bool CanSetToForcedStringValue(const FString& InForcedValue) const { return false; }
+
+	//The child class should override this to specify how to set the current value to the forced value
+	virtual void OnSetToForcedStringValue(const FString& InForcedValue) {}
+
+	virtual void OnEditDependencyDataModified(UListDataObject_Base* ModifiedDependencyData, EOptionsListDataModifyReason ModifyReason);
+
 private:
 	FName DataID;
 	FText DataDisplayName;
@@ -58,4 +77,7 @@ private:
 	UListDataObject_Base* ParentData;
 
 	bool bShouldApplyChangeImmediatly = false;
+
+	UPROPERTY(Transient)
+	TArray<FOptionsDataEditConditionDescriptor> EditConditionDescArray;
 };

@@ -38,6 +38,16 @@ void UWidget_ListEntry_String::OnOnlyListDataObjectModified(UListDataObject_Base
 	}
 }
 
+
+void UWidget_ListEntry_String::OnToggleEditableState(bool bIsEditable)
+{
+	Super::OnToggleEditableState(bIsEditable);
+
+	CommonButton_PreviousOption->SetIsEnabled(bIsEditable);
+	CommonRotator_AvailableOptions->SetIsEnabled(bIsEditable);
+	CommonButton_NextOption->SetIsEnabled(bIsEditable);
+}
+
 void UWidget_ListEntry_String::OnPreviousOptionButtonClicked()
 {
 	if (CachedOwningStringObject)

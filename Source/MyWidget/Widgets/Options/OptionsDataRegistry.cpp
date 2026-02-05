@@ -241,6 +241,8 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 	VideoTabCollection->SetDataID(FName("VideoTabCollection"));
 	VideoTabCollection->SetDataDisplayName(FText::FromString(TEXT("Video")));
 
+	UListDataObject_StringEnum* CreatedWindowMode = nullptr;
+
 	//Display Category
 	{
 		UListDataObject_Collection* DisplayCategoryCollection = NewObject<UListDataObject_Collection>();
@@ -248,6 +250,17 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 		DisplayCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("Display")));
 
 		VideoTabCollection->AddChildListData(DisplayCategoryCollection);
+
+		FOptionsDataEditConditionDescriptor PackagedBuildOnlyCondition;
+		PackagedBuildOnlyCondition.SetEditConditionFunc(
+			[]()->bool
+			{
+				const bool bIsInEditor = GIsEditor || GIsPlayInEditorWorld;
+
+				return !bIsInEditor;
+			}
+		);
+		PackagedBuildOnlyCondition.SetDisabledRichReason(TEXT("\n\n<Disabled>This setting can only be adjusted in a packaged build.</>"));
 
 		//Window Mode
 		{
@@ -262,6 +275,9 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			WindowMode->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetFullscreenMode));
 			WindowMode->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetFullscreenMode));
 			WindowMode->SetShouldApplyChangeImmediatly(true);
+			WindowMode->AddEditCondition(PackagedBuildOnlyCondition);
+
+			CreatedWindowMode = WindowMode;
 
 			DisplayCategoryCollection->AddChildListData(WindowMode);
 		}
@@ -276,6 +292,24 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			ScreenResolution->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetScreenResolution));
 			ScreenResolution->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetScreenResolution));
 			ScreenResolution->SetShouldApplyChangeImmediatly(true);
+
+			ScreenResolution->AddEditCondition(PackagedBuildOnlyCondition);
+
+			FOptionsDataEditConditionDescriptor WindowModeEditCondition;
+			WindowModeEditCondition.SetEditConditionFunc(
+				[CreatedWindowMode]()->bool
+				{
+					const bool bIsBoderlessWindow = CreatedWindowMode->GetCurrentValueAsEnum<EWindowMode::Type>() == EWindowMode::WindowedFullscreen;
+
+					return !bIsBoderlessWindow;
+				}
+			);
+			WindowModeEditCondition.SetDisabledRichReason(TEXT("\n\n<Disabled>Screen Resolution is not adjustable when the 'Window Mode' is set to Borderless Window.The value must match with the maximum allowed resolution.</>"));
+			WindowModeEditCondition.SetDisabledForcedStringValue(ScreenResolution->GetMaximumAllowedResolution());
+
+			ScreenResolution->AddEditCondition(WindowModeEditCondition);
+
+			ScreenResolution->AddEditDependencyData(CreatedWindowMode);
 
 			DisplayCategoryCollection->AddChildListData(ScreenResolution);
 		}

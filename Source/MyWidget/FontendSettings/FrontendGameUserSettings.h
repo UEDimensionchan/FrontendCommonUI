@@ -75,4 +75,6 @@ private:
 	UPROPERTY(Config)
 	bool bUseHDRAudioMode;
 	//AudioSettings
+
+
 };

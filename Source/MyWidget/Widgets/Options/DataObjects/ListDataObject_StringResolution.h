@@ -14,6 +14,10 @@ class MYWIDGET_API UListDataObject_StringResolution : public UListDataObject_Str
 {
 	GENERATED_BODY()
 
+
+public:
+	FORCEINLINE FString GetMaximumAllowedResolution() const { return MaximumAllowedResolution; }
+
 public:
 	void InitResolutionValues();
 	

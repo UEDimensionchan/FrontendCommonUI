@@ -36,8 +36,15 @@ protected:
 
 	virtual void OnOnlyListDataObjectModified(UListDataObject_Base* OwningModifiedData,EOptionsListDataModifyReason ModifyReason);
 
+	virtual void OnOwningDependencyDataObjectModified(UListDataObject_Base* OwningModifiedDependencyData, EOptionsListDataModifyReason ModifyReason);
+
+	virtual void OnToggleEditableState(bool bIsEditable);
+
 	void SelectThisEntryWidget();
 private:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional,AllowPrivateAccess = "true"))
 	UCommonTextBlock* CommText_SettingDisplayName;
+
+	UPROPERTY(Transient)
+	UListDataObject_Base* CachedOwningDataObject;
 };
