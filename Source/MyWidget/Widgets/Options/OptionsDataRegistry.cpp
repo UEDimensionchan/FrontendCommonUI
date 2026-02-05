@@ -9,6 +9,7 @@
 #include "../../FontendSettings/FrontendGameUserSettings.h"
 #include "../../FrontendGameplayTags.h"
 #include "MyWidget/FrontendFunctionLibrary.h"
+#include "DataObjects/ListDataObject_StringResolution.h"
 
 #define MAKE_OPTIONS_DATA_CONTROL(SetterOrGetterFuncName) \
 	MakeShared<FOptionsDataInteractionHelper>(GET_FUNCTION_NAME_STRING_CHECKED(UFrontendGameUserSettings, SetterOrGetterFuncName))
@@ -263,6 +264,20 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			WindowMode->SetShouldApplyChangeImmediatly(true);
 
 			DisplayCategoryCollection->AddChildListData(WindowMode);
+		}
+
+		//Screen Resolution
+		{
+			UListDataObject_StringResolution* ScreenResolution = NewObject<UListDataObject_StringResolution>();
+			ScreenResolution->SetDataID(FName("ScreenResolution"));
+			ScreenResolution->SetDataDisplayName(FText::FromString(TEXT("Screen Resolution")));
+			ScreenResolution->SetDescriptionRichText(FText::FromString(TEXT("This is description for Screen Resolution")));
+			ScreenResolution->InitResolutionValues();
+			ScreenResolution->SetDataDynamicGetter(MAKE_OPTIONS_DATA_CONTROL(GetScreenResolution));
+			ScreenResolution->SetDataDynamicSetter(MAKE_OPTIONS_DATA_CONTROL(SetScreenResolution));
+			ScreenResolution->SetShouldApplyChangeImmediatly(true);
+
+			DisplayCategoryCollection->AddChildListData(ScreenResolution);
 		}
 	}
 

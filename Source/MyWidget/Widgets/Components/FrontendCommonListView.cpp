@@ -8,7 +8,7 @@
 #include "../Options/DataObjects/ListDataObject_Base.h"
 #include "../Options/DataObjects/ListDataObject_Collection.h"
 
-#if WITH_EDITOR	
+
 UUserWidget& UFrontendCommonListView::OnGenerateEntryWidgetInternal(UObject* Item, TSubclassOf<UUserWidget> DesiredEntryClass, const TSharedRef<STableViewBase>& OwnerTable)
 {
 	if (IsDesignTime())
@@ -31,7 +31,7 @@ bool UFrontendCommonListView::OnIsSelectableOrNavigableInternal(UObject* FirstSe
 	return !FirstSelectedItem->IsA<UListDataObject_Collection>();
 }
 
-
+#if WITH_EDITOR	
 void UFrontendCommonListView::ValidateCompiledDefaults(IWidgetCompilerLog& CompileLog) const
 {
 	Super::ValidateCompiledDefaults(CompileLog);
