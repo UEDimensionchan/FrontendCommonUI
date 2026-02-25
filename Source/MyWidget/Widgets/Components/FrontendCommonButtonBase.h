@@ -8,6 +8,7 @@
 
 
 class UCommonTextBlock;
+class UCommonLazyImage;
 /**
  * 
  */
@@ -22,6 +23,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FText GetButtonDisplayText();
+
+	UFUNCTION(BlueprintCallable)
+	void SetButtionDisplayImage(const FSlateBrush& InBrush);
 
 private:
 	virtual void NativePreConstruct() override;
@@ -41,6 +45,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Frontend Button", meta = (AllowPrivcateAccess = true))
 	FText ButtonDescriptionText;
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional, AllowPrivateAccess = "true"))
+	UCommonLazyImage* CommonLazyImage_ButtonImage;
 	
 private:
 	//Bound Widgets//

@@ -17,5 +17,8 @@ namespace FrontendGameplayTags
 
 	MYWIDGET_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_Widget_ConfirmScreen);
 
+	MYWIDGET_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_Widget_KeyRemapScreen);
+
 	MYWIDGET_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_Image_TestImage);
+
 }

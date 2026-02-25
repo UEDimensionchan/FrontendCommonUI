@@ -28,6 +28,10 @@
 		{
 			"Name": "CommonUI",
 			"Enabled": true
+		},
+		{
+			"Name": "MediaMovieStreamer",
+			"Enabled": true
 		}
 	]
 }

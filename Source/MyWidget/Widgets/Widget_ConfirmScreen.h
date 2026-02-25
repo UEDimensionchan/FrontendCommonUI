@@ -53,6 +53,12 @@ class MYWIDGET_API UWidget_ConfirmScreen : public UWidget_ActivatableBase
 public:
 	//初始化屏幕
 	void InitConfirmScreen(UConfirmScreenInfoObject* InScreenInfoObject, TFunction<void(EConfirmScreenButtonType)> ClickedButtonCallBack);
+
+
+protected:
+	//~ Begin UCommonActivatableWidget Interface
+	virtual UWidget* NativeGetDesiredFocusTarget() const override;
+	//~ End UCommonActivatableWidget Interface
 	
 private:
 	UPROPERTY(meta = (BindWidget))
