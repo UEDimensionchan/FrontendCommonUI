@@ -17,7 +17,8 @@ public class MyWidget : ModuleRules
             "GameplayTags",
 			"UMG",
 			"CommonInput",
-            "PropertyPath"
+            "PropertyPath",
+            "PreLoadScreen"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
